@@ -67,7 +67,8 @@
             </div>
             <div class="card-action">
                 <div class="like" onclick="likeChange(this, '{% get_content_type flow %}', {{ flow.pk }})">
-                    <span class="glyphicon glyphicon-thumbs-up {% get_like_status flow %}"><img height="5%" width="5%" src="{% static "pic/facebook-like.png" %}"></span>
+                    <span ><img height="5%" width="5%" src="{% static "pic/facebook-like.png" %}"> </span>
+                    <span class="glyphicon glyphicon-thumbs-up {% get_like_status flow %}" ></span>
                     <span class="liked-num">{% get_like_count flow %}</span>
                     </div>
 
@@ -82,12 +83,17 @@
     {{ form.timestamp }}
     {{ form.security_hash }}
     <input type="hidden" name="next" value="{% url 'InfoFlow' %}" />
-    <input type="submit" value="发送" id="id_submit" />
+    <input type="submit" value="发送" id="comment_submit" />
     </form>
 {% else %}
     <p>请先<a href="{% url 'login' %}">登录</a>后方可评论.</p>
-{% endif %}</div>
-                <div>{% render_comment_list for flow %}</div>
+{% endif %}
+
+<div>{% get_comment_list for flow as comment_list %}<!--展示评论-->
+{% for comment in comment_list %}
+    {{ comment.user_name }}<!--ID-->{{ comment.comment }}<!--内容-->{{ comment.submit_date }}<!--时间-->
+{% endfor %}
+</div>
 
 </div>
         </div>
