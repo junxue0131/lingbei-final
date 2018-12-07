@@ -1,4 +1,6 @@
 import datetime
+import random
+
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render
 from website.models import save_tweets, Tweet, mostdone, IDInfo
@@ -53,16 +55,6 @@ def user_login(request):
 
 @login_required
 
-def upload(request):
-    if request.method =='GET':
-        return render(request,'upload.html')
-    if request.method == 'POST':
-        name = request.POST.get('nickname')
-        avatar = request.FILES.get('avatar')
-        IDInfo.objects.filter(username=request.user.username).delete()
-        IDInfo.objects.create(username=request.user.username,avatar=avatar,nickname=name)
-        return HttpResponseRedirect('/upload/', messages.success(request,'分享成功'))
-
 def make_historyline(request):
     username = request.user.username#获取用户名
     today = datetime.date.today()
@@ -71,6 +63,14 @@ def make_historyline(request):
     post_list_today = Tweet.objects.filter(username = username).filter(date = today.isoformat()).order_by('time')
     post_list_beforeyesterday = Tweet.objects.filter(username = username).filter(date = beforeyesterday.isoformat()).order_by('time')
     post_list_yesterday = Tweet.objects.filter(username = username).filter(date = yesterday.isoformat()).order_by('time')
+    rurl_head = "/static/pic/bookmark/"
+    rurl_foot = ".jpg"
+    for i in post_list_today:
+        i.url = rurl_head+random.randint(1,14)+rurl_foot
+    for i in post_list_yesterday:
+        i.url = rurl_head + random.randint(1, 14) + rurl_foot
+    for i in post_list_beforeyesterday:
+        i.url = rurl_head+random.randint(1,14)+rurl_foot
     return render(request, 'Today.html', {'yesterday': post_list_yesterday,'beforeyesterday': post_list_beforeyesterday, 'today': post_list_today,'date': today, 'username':username, 'hello':sayhello()})
 
 def map(request):
@@ -137,13 +137,12 @@ def draw_line(request):
 
 def info_flow(request):
     iflow = Tweet.objects.exclude(username= request.user.username).order_by('date') #每个地点搜索五条
-    urls = []
     rurl_head = "/static/pic/picOfLine/"
     rurl_foot = ".jpg"
     for i in iflow:
         i.url = rurl_head+i.place+rurl_foot
     iflow = iflow[:30]
-    return render(request,'InfoFlow.html', {'flows':iflow,'username':request.user.username,'hello':sayhello(),'urls':urls})
+    return render(request,'InfoFlow.html', {'flows':iflow,'username':request.user.username,'hello':sayhello(),})
 
 def sayhello():
     global hello
@@ -159,3 +158,12 @@ def sayhello():
     if time>23 and time<=6:
         hello = "（恭喜你发现彩蛋）深夜了，晚安"
     return hello
+
+def my_flow(request):
+    iflow = Tweet.objects.filter(username= request.user.username).order_by('date') #每个地点搜索五条
+    rurl_head = "/static/pic/picOfLine/"
+    rurl_foot = ".jpg"
+    for i in iflow:
+        i.url = rurl_head+i.place+rurl_foot
+    iflow = iflow[:30]
+    return render(request,'MyFlow.html', {'flows':iflow,'username':request.user.username,'hello':sayhello(),})

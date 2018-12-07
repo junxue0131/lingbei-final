@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>{% load static %}
+    {% load comments %}
+{% load likes_tags %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+    <title>时空珞珈——发现</title>
+    <!-- CSS  -->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static "js/materialize.js" %}"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static "css/materialize.min.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="{% static "css/styleOfframe.css" %}" rel="stylesheet" media="screen,projection"/>
+        <link rel="stylesheet" href="{% static "css/styleOfInfo.css" %}">
+
+    <style>#id_honeypot {
+    display: none;
+}</style>
+
+</head>
+<body>
+<!--顶部导航栏-->
+<div class =  "navbar-fixed">
+    <nav class="" role="navigation" style = "background-color: #efefef;">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="#" class="brand-logo" style = "width:10%;"><img src = "{% static "pic/Logo1.png" %}" style = "height:80%;width:80%;"></a>
+            <ul class="right hide-on-med-and-down">
+                <li><img class = "item" src = "{% static "pic/picOfMap/home.png" %}" id = "home" style = "display:inline-block;"></li>
+                <li><a href = "/map/" style="color:#243B2B">记录</a></li>
+                <li><img class = "item" src = "{% static "pic/picOfMap/Line.png" %}" id = "Line"></li>
+                <li><a href = "/line/" style="color:#243B2B">印记</a></li>
+                <li><img class = "item" src = "{% static "pic/picOfMap/light.png" %}" id = "Time-line"></li>
+                <li><a href = "/timeline/" style="color:#243B2B">流逝</a></li>
+                <li><img class = "item" src = "{% static "pic/picOfMap/info.png" %}" id = "info"></li>
+                <li><a href = "/infoflow/" style="color:#243B2B">发现</a></li>
+            </ul>
+
+            <ul id="nav-mobile" class="side-nav">
+                <li><a href = "/map/">记录</a></li>
+                <li><a href = "/line/">印记</a></li>
+                <li><a href = "/timeline/">流逝</a></li>
+                <li><a href = "/infoflow/">发现</a></li>
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+</div>
+
+
+<div class = "card-container">
+<!--主体内容-->
+    {% for flow in flows %}
+<div class="col s12 m6 card z-depth-4">
+    <div class = "user">
+        <img src = "{% static "pic/头像.jpg" %}" class = "touxiang circle">
+        <h5 style = "display:inline-block;"><a>{{ flow.username }}</a></h5>
+    </div>
+
+    <div class="card">
+        <div class="card-image">
+            <img class = "user-img" src="{{ STATIC_URL }}{{ flow.url }}">
+        </div>
+        <div class="card-stacked">
+            <div class="card-content">
+                <p>{{ flow.thought }}</p>
+            </div>
+            <div class="card-action">
+                <div class="like" onclick="likeChange(this, '{% get_content_type flow %}', {{ flow.pk }})">
+                    <span ><img height="5%" width="5%" src="{% static "pic/facebook-like.png" %}"> </span>
+                    <span class="glyphicon glyphicon-thumbs-up {% get_like_status flow %}" ></span>
+                    <span class="liked-num">{% get_like_count flow %}</span>
+                    </div>
+
+                <div>{% if user.is_authenticated %}
+    {% get_comment_form for flow as form %}
+    <form action="{% comment_form_target %}" method="POST">
+    {% csrf_token %}
+    {{ form.comment }}
+    {{ form.honeypot }}
+    {{ form.content_type }}
+    {{ form.object_pk }}
+    {{ form.timestamp }}
+    {{ form.security_hash }}
+    <input type="hidden" name="next" value="{% url 'InfoFlow' %}" />
+    <input type="submit" value="发送" id="comment_submit" />
+    </form>
+{% else %}
+    <p>请先<a href="{% url 'login' %}">登录</a>后方可评论.</p>
+{% endif %}
+
+<div>{% get_comment_list for flow as comment_list %}<!--展示评论-->
+{% for comment in comment_list %}
+    {{ comment.user_name }}<!--ID-->{{ comment.comment }}<!--内容-->{{ comment.submit_date }}<!--时间-->
+{% endfor %}
+</div>
+
+</div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+</div>
+
+
+
+
+
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="{% static "js/materialize.js" %}"></script>
+<script>
+    (function($){
+        $(function(){
+
+            $('.button-collapse').sideNav();
+            $('.parallax').parallax();
+
+        }); // end of document ready
+    })(jQuery); // end of jQuery name space
+    <!--modal-->
+    $(document).ready(function(){
+        // .modal-trigger类所在的a标签的href属性必须制定模态框的id才能被触发。
+        $('.modal').modal({
+            dismissible: false, // 点击模态外面模态消失关闭
+            opacity: .5, // 相对于背景的不透明度
+            in_duration: 300, // 显示特效的时间
+            out_duration: 200, // 消失特效时间
+            starting_top: '4%', // 启动时的样式属性
+            ending_top: '10%', // 结束时的样式属性
+
+        });
+        $('.open').on('click', function() {
+            $('#modal1').modal('open');
+        });
+        $('.close').on('click', function() {
+            $('#modal2').modal('close');
+        });
+
+
+        $(document).ready(function() {
+
+            $('select').material_select();
+
+        });
+
+
+        $(document).ready(function(){
+            $('.carousel').carousel();
+        });
+    });
+            function likeChange(obj, content_type, object_id){
+            var is_like = obj.getElementsByClassName('active').length === 0;
+            $.ajax({
+                url: "{% url 'like_change' %}",
+                type: 'GET',
+                data: {
+                    content_type: content_type,
+                    object_id: object_id,
+                    is_like: is_like
+                },
+                cache: false,
+                success: function(data){
+                    console.log(data);
+                    if(data['status']==='SUCCESS'){
+                        // 更新点赞状态
+                        var element = $(obj.getElementsByClassName('glyphicon'));
+                        if(is_like){
+                            element.addClass('active');
+                        }else{
+                            element.removeClass('active');
+                        }
+                        // 更新点赞数量
+                        var liked_num = $(obj.getElementsByClassName('liked-num'));
+                        liked_num.text(data['liked_num']);
+                    }else{
+                        alert(data['message']);
+                    }
+                },
+                error: function(xhr){
+                    console.log(xhr)
+                }
+            });
+        }
+</script>
+
+
+
+
+</body>
+
+<!--底部栏-->
+<footer class="page-footer" style = "float: bottom;position: relative;background:#243B2B;">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">时空珞珈</h5>
+                <p class="grey-text text-lighten-4">关于“珞珈印象”这么一个主题，我们思考了很久：在视觉上经典的绿瓦和牌坊，象征中不变的樱花和东湖水之外，珞珈给予我们的、我们留在珞珈的，究竟是什么？
+                    这一次的网页设计就代表了我们的答案——我们在珞珈的时光</p>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            Made by <h5 style = "display: inline-block;">编程哲学</h5>
+        </div>
+    </div>
+</footer>
+
+</html>
