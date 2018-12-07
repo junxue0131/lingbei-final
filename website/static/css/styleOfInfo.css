@@ -49,8 +49,8 @@ a {
 }
 
 .item {
-	width: 30%;
-	margin-top: 40%;
+	width: 20px;
+	margin-top:110%;
 	margin-bottom: 40%;
 	cursor: pointer;
 	opacity: 1;
