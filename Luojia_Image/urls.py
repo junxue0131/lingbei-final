@@ -32,5 +32,6 @@ urlpatterns = [
     path('timeline/',  website_views.make_historyline, name="make_timeline",), #历史记录
     path('infoflow/', website_views.info_flow, name="InfoFlow",), #信息流
     path('likes/', include('likes.urls')),
+    path('myflow/',website_views.my_flow),
     url(r'^/comments/', include('django_comments.urls')),
 ]

@@ -31,7 +31,7 @@ def like_change(request):
     object_id = int(request.GET.get('object_id'))
 
     try:
-        content_type = ContentType.objects.get(model=content_type)
+        content_type = ContentType.objects.get(model=content_type)[0]
         model_class = content_type.model_class()
         model_obj = model_class.objects.get(pk=object_id)
     except ObjectDoesNotExist:
