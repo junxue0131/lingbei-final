@@ -55,42 +55,48 @@
 </div>
 
 
-<div class="carousel" style = "height: 700px;">
+<div class="carousel" style = "height: 800px;">
     {% for i in today %}
-    <a class="carousel-item" href="#">
+    <a class="carousel-item carback" href="#">
+            <img class = "fontback"  style = "position: absolute;" src = "{% static "pic/back/back-book/背景1.jpg" %}"">
             <div class="modal-content">
-            <p  class=""  style ="font-size:1rem; width: 15%;display: inline-block;" id = "seven">{{ i.date }}&nbsp;{{ i.time }}</p>
+            <h3  class="fontback"  style ="position: relative;left:10%;font-size:1.5rem; width: 80%;display: inline-block;" id = "seven">{{ i.date }}&nbsp;<br>{{ i.time }}</h3>
         </div>
         <div class="modal-content">
-            <p  class=""  style ="font-size:1rem; width: 15%;display: inline-block;" id = "seven">在{{ i.place }}&nbsp;{{ i.thing }}</p>
+            <h3  class="fontback"  style ="position: absolute;font-size:1.5rem; width: 10%;display: inline-block;left:20%;bottom:40%" id = "seven">在{{ i.place }}&nbsp;</h3>
+            <h3  class="fontback"  style ="position: absolute;font-size:1.5rem; width: 10%;display: inline-block;left:45%;top:40%;" id = "seven">{{ i.thing }}</h3>
         </div>
             <div class="modal-content">
-            <p  class=""  style ="font-size:1rem; width: 15%;display: inline-block;" id = "seven">"{{ i.thought }}"</p>
+            <h3  class="fontback"  style ="position: absolute;left:10%;top:100%;font-size:1.5rem; width: 80%;display: inline-block;" id = "seven">"{{ i.thought }}"</h3>
         </div>
     </a>
     {% endfor %}    {% for i in yesterday %}
     <a class="carousel-item" href="#">
-            <div class="modal-content">
-            <p  class=""  style ="font-size:1rem; width: 15%;display: inline-block;" id = "seven">{{ i.date }}&nbsp;{{ i.time }}</p>
+        <img class = "fontback"  style = "position: absolute;" src = "{% static "pic/back/back-book/背景1.jpg" %}"">
+        <div class="modal-content">
+            <h3  class="fontback"  style ="position: relative;left:10%;font-size:1.5rem; width: 80%;display: inline-block;" id = "seven">{{ i.date }}&nbsp;<br>{{ i.time }}</h3>
         </div>
         <div class="modal-content">
-            <p  class=""  style ="font-size:1rem; width: 15%;display: inline-block;" id = "seven">在{{ i.place }}&nbsp;{{ i.thing }}</p>
+            <h3  class="fontback"  style ="position: absolute;font-size:1.5rem; width: 10%;display: inline-block;left:20%;bottom:40%" id = "seven">在{{ i.place }}&nbsp;</h3>
+            <h3  class="fontback"  style ="position: absolute;font-size:1.5rem; width: 10%;display: inline-block;left:45%;top:40%;" id = "seven">{{ i.thing }}</h3>
         </div>
-            <div class="modal-content">
-            <p  class=""  style ="font-size:1rem; width: 15%;display: inline-block;" id = "seven">"{{ i.thought }}"</p>
+        <div class="modal-content">
+            <h3  class="fontback"  style ="position: absolute;left:10%;top:100%;font-size:1.5rem; width: 80%;display: inline-block;" id = "seven">"{{ i.thought }}"</h3>
         </div>
     </a>
     {% endfor %}
     {% for i in beforeyesterday %}
     <a class="carousel-item" href="#">
-            <div class="modal-content">
-            <p  class=""  style ="font-size:1rem; width: 15%;display: inline-block;" id = "seven">{{ i.date }}{{ i.time }}</p>
+        <img class = "fontback"  style = "position: absolute;" src = "{% static "pic/back/back-book/背景1.jpg" %}"">
+        <div class="modal-content">
+            <h3  class="fontback"  style ="position: relative;left:10%;font-size:1.5rem; width: 80%;display: inline-block;" id = "seven">{{ i.date }}&nbsp;<br>{{ i.time }}</h3>
         </div>
         <div class="modal-content">
-            <p  class=""  style ="font-size:1rem; width: 15%;display: inline-block;" id = "seven">在{{ i.place }}&nbsp;{{ i.thing }}</p>
+            <h3  class="fontback"  style ="position: absolute;font-size:1.5rem; width: 10%;display: inline-block;left:20%;bottom:40%" id = "seven">在{{ i.place }}&nbsp;</h3>
+            <h3  class="fontback"  style ="position: absolute;font-size:1.5rem; width: 10%;display: inline-block;left:45%;top:40%;" id = "seven">{{ i.thing }}</h3>
         </div>
-            <div class="modal-content">
-            <p  class=""  style ="font-size:1rem; width: 15%;display: inline-block;" id = "seven">"{{ i.thought }}"</p>
+        <div class="modal-content">
+            <h3  class="fontback"  style ="position: absolute;left:10%;top:100%;font-size:1.5rem; width: 80%;display: inline-block;" id = "seven">"{{ i.thought }}"</h3>
         </div>
     </a>
     {% endfor %}

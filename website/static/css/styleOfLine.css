@@ -130,3 +130,10 @@ center:hover {
 	padding-top: 3%;
 	padding-bottom: 3%;
 }
+
+.back {
+	background-color: rgba(0,0,0,0.3);
+	position: absolute;
+	left: 15%;
+	top: 25%;
+}
